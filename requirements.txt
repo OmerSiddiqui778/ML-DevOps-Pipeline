@@ -1,0 +1,5 @@
+streamlit==1.57.0
+tensorflow==2.21
+numpy==2.0.1
+pillow==12.2.0
+matplotlib==3.10.0
