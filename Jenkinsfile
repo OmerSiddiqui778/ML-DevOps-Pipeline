@@ -24,7 +24,7 @@ pipeline{
                 echo 'Deploying the streamlit app to local container...'
                 bat 'docker stop ml-app-container || exit 0'
                 bat 'docker rm ml-app-container || exit 0'
-                sh 'docker run -d -p 8501:8501 --name ml-app-container ai-vs-real-app:latest'
+                bat 'docker run -d -p 8501:8501 --name ml-app-container ai-vs-real-app:latest'
                 echo 'Application is live at http:localhost:8501'
             }
         }
