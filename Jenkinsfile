@@ -10,7 +10,7 @@ pipeline{
         stage("Build image"){
             steps{
                 echo "builing the docker image...."
-                sh 'docker build -t ai-vs-real-app:latest .'
+                bat 'docker build -t ai-vs-real-app:latest .'
             }
         }
         stage('test model'){
@@ -21,9 +21,10 @@ pipeline{
         }
         stage('deploy staging'){
             steps{
-                echo 'Deploying to local container...'
-                sh 'docker stop ml-app-container || true'
-                sh 'docker rm -d -p 8501:8501 --name ml-app-container ai-vs-real-app:latest'
+                echo 'Deploying the streamlit app to local container...'
+                bat 'docker stop ml-app-container || exit 0'
+                bat 'docker rm ml-app-container || exit 0'
+                sh 'docker run -d -p 8501:8501 --name ml-app-container ai-vs-real-app:latest'
                 echo 'Application is live at http:localhost:8501'
             }
         }
