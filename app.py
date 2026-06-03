@@ -4,7 +4,7 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model 
 from PIL import Image 
 
-model = load_model("model.h5")
+model = load_model("model.keras")
 
 st.title("AI vs Real Image classification")
 st.write("Upload an image the model will classify it as an AI-generated or Real..")
