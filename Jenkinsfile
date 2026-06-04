@@ -16,7 +16,7 @@ pipeline{
         stage('test model'){
             steps{
                 echo 'Running manual ML sanity checks...'
-                bat 'pytest test_app.py'
+                bat 'docker run --rm ai-vs-real-app:latest pytest test_app.py'
                 echo 'All checks passed!'
             }
         }
