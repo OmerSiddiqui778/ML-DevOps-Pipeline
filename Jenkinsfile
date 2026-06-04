@@ -1,32 +1,49 @@
-pipeline{
-    agent any 
-    
+pipeline {
+    agent any
+
     stages {
-        stage("Checkout"){
-            steps{
-                checkout scm 
+        stage('Checkout Source') {
+            steps {
+                checkout scm
             }
         }
-        stage("Build image"){
-            steps{
-                echo "builing the docker image...."
-                bat 'docker build -t ai-vs-real-app:latest .'
+
+        
+        stage('Build Image') {
+            steps {
+                echo 'Building the Docker container application artifact...'
+                bat "docker build -t ai-vs-real-app:latest ."
             }
         }
-        stage('test model'){
-            steps{
-                echo 'Running manual ML sanity checks...'
-                bat 'docker run --rm ai-vs-real-app:latest pytest test_app.py'
-                echo 'All checks passed!'
+
+        
+        stage('Test Model') {
+            steps {
+                echo 'Running automated Python test suite inside the container...'
+                bat "docker run --rm ai-vs-real-app:latest pytest test_app.py"
             }
         }
-        stage('deploy staging'){
-            steps{
-                echo 'Deploying the streamlit app to local container...'
-                bat 'docker stop ml-app-container || exit 0'
-                bat 'docker rm ml-app-container || exit 0'
-                bat 'docker run -d -p 8501:8501 --name ml-app-container ai-vs-real-app:latest'
-                echo 'Application is live at http:localhost:8501'
+
+        
+        stage('Code Quality Analysis') {
+            steps {
+                echo 'Running codebase health and maintainability analysis...'
+                
+                bat "docker run --rm ai-vs-real-app:latest radon cc app.py test_app.py -s"
+            }
+        }
+
+        
+        stage('Deploy Staging') {
+            steps {
+                echo 'Deploying application container to local staging server...'
+                
+                bat "docker stop ai-vs-real-container || true"
+                bat "docker rm ai-vs-real-container || true"
+                
+                
+                bat "docker run -d -p 8501:8501 --name ai-vs-real-container ai-vs-real-app:latest"
+                echo 'Application successfully deployed live to http://localhost:8501'
             }
         }
     }
