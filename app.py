@@ -13,7 +13,7 @@ model = models.Sequential([
     layers.Dense(1,activation='sigmoid')
 ])
 
-model.load_weights=("model_weights.weights.h5")
+model.load_weights("model_weights.weights.h5")
 st.title("AI vs Real Image classification")
 st.write("Upload an image the model will classify it as an AI-generated or Real..")
 
