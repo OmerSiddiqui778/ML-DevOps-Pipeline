@@ -41,9 +41,9 @@ pipeline {
                 bat """
                     docker stop ai-vs-real-container 2>nul || echo Container was not running.
                     docker rm ai-vs-real-container 2>nul || echo Container did not exist.
-                    docker run -d -p 8501:8501 --name ai-vs-real-container ai-vs-real-app:latest
+                    docker run -d -p 8502:8501 --name ai-vs-real-container ai-vs-real-app:latest
                 """
-                echo 'Application successfully deployed live to http://localhost:8501'
+                echo 'Application successfully deployed live to http://localhost:8502'
             }
         }
     }
