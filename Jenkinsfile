@@ -15,7 +15,8 @@ pipeline{
         }
         stage('test model'){
             steps{
-                echo 'Running sanity checks...'
+                echo 'Running manual ML sanity checks...'
+                bat 'pytest test_app.py'
                 echo 'All checks passed!'
             }
         }
