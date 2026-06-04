@@ -1,11 +1,19 @@
 import streamlit as st 
 import numpy as np 
 from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras import layers, models
 from tensorflow.keras.models import load_model 
 from PIL import Image 
 
-model = load_model("model.keras")
+base = MobileNetV2(weights='imagenet', include_top=False, pooling='avg')
+base.trainable = False
+model = models.Sequential([
+    base, 
+    layers.Dense(1,activation='sigmoid')
+])
 
+model.load_weights=("model_weights.weights.h5")
 st.title("AI vs Real Image classification")
 st.write("Upload an image the model will classify it as an AI-generated or Real..")
 
