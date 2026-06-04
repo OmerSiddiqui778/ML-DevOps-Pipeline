@@ -38,11 +38,11 @@ pipeline {
             steps {
                 echo 'Deploying application container to local staging server...'
                 
-                bat "docker stop ai-vs-real-container || true"
-                bat "docker rm ai-vs-real-container || true"
-                
-                
-                bat "docker run -d -p 8501:8501 --name ai-vs-real-container ai-vs-real-app:latest"
+                bat """
+                    docker stop ai-vs-real-container 2>nul || echo Container was not running.
+                    docker rm ai-vs-real-container 2>nul || echo Container did not exist.
+                    docker run -d -p 8501:8501 --name ai-vs-real-container ai-vs-real-app:latest
+                """
                 echo 'Application successfully deployed live to http://localhost:8501'
             }
         }
